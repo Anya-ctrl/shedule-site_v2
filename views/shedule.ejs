@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shedule</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('./partials/header') %>
+
+    <main class="main">
+      <div class="shedule__container">
+        <div class="shedule">
+          <h2 class="shedule__title">
+            Розклад занять
+          </h2>
+  
+          <table class="shedule__table">
+            <thead>
+              <tr>
+                <th>Година</th>
+                <th>Понеділок</th>
+                <th>Вівторок</th>
+                <th>Середа</th>
+                <th>Четвер</th>
+                <th>П'ятниця</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>8:00-9:20</td>
+                <td><%= monday.firstLesson %></td>
+                <td><%= tuesday.firstLesson %></td>
+                <td><%= wednesday.firstLesson %></td>
+                <td><%= thursday.firstLesson %></td>
+                <td><%= friday.firstLesson %></td>
+              </tr>
+    
+              <tr>
+                <td>9:35-10:55</td>
+                <td><%= monday.secondLesson %></td>
+                <td><%= tuesday.secondLesson %></td>
+                <td><%= wednesday.secondLesson %></td>
+                <td><%= thursday.secondLesson %></td>
+                <td><%= friday.secondLesson %></td>
+              </tr>
+    
+              <tr>
+                <td>11:10-12:30</td>
+                <td><%= monday.thirdLesson %></td>
+                <td><%= tuesday.thirdLesson %></td>
+                <td><%= wednesday.thirdLesson %></td>
+                <td><%= thursday.thirdLesson %></td>
+                <td><%= friday.thirdLesson %></td>
+              </tr>
+    
+              <tr>
+                <td>12:45-14:05</td>
+                <td><%= monday.fourthLesson %></td>
+                <td><%= tuesday.fourthLesson %></td>
+                <td><%= wednesday.fourthLesson %></td>
+                <td><%= thursday.fourthLesson %></td>
+                <td><%= friday.fourthLesson %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    
+</body>
+</html>

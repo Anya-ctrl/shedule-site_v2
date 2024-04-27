@@ -1,0 +1,54 @@
+<header class="header">
+    <div class="header-container">
+        <div class="header__inner">
+            <a href="../" class="logo">
+                <img class="logo__link" src="/images/logo.svg" alt="logo">
+            </a>
+           
+            <nav class="menu">
+                <ul class="menu__list">
+                    <% if (auth && user && user.role === "admin") { %>
+                        <a href="../professors" class="admin-menu__link"><span>Контакти викладачів</span></a>
+                        <a href="../admin" class="admin-menu__link"><span>Адмін панель</span></a>
+                    <% } %>
+                    
+                    <% if (!auth) { %>    
+                        <li class="menu__item">
+                            <a class="menu__list-link" href="../registration">Реєстрація</a>
+                        </li>
+                        <li class="menu__item">
+                            <a class="menu__list-link" href="../entry">Вхід</a>
+                        </li>
+                    <% } %>
+                    <li class="menu__item menu-student">
+                        <img class="menu__list-item" src="/images/profile.svg" alt="profile">
+                        <% if (user && auth && user.role === "student" && user.groupId) { %>
+                            <div class="student-menu">
+                                <div class="student-menu__title">Студент</div>
+                                    
+                                <ul class="student-menu__list">
+                                    <li class="student-menu__item">
+                                        <a href="<%- '/shedule/' + user.groupId %>" class="student-menu__link" id="studentShedule"><span>Розклад занять</span></a>
+                                    </li>
+                                    <li class="student-menu__item">
+                                        <a href="/professors" class="student-menu__link"><span>Контакти викладачів</span></a>
+                                    </li>
+                                </ul>
+                            </div> 
+                            <div class="student-menu__email"><%- user.email %></div>          
+                        <% } else if (auth) {%>
+                            <div class="student-menu__email"><%- user.email %></div>
+                        <% } %>
+                    </li>
+                    <% if (auth && user.role === "student" && user.groupId) { %>
+                        <a class="student__link" href="/logout"><img src="/images/logout.svg" alt="Вийти"></a>
+                    <% } else if (auth) {%>
+                        <a class="student__link" href="/logout"><img src="/images/logout.svg" alt="Вийти"></a>
+                    <% } %>
+
+                </ul>  
+            </nav>
+            
+        </div>
+    </div>
+</header>

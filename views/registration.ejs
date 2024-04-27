@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registratiion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <%- include('./partials/header') %>
+
+    <main class="main">
+        <section class="registration" id="registration">
+            <div class="container">
+                <h2 class="registration__title">
+                    Реєстрація
+                </h2>
+        
+                <form id="registrationForm" method="POST" action="/register">
+                    <div class="registration-block">
+                        <div class="registration-block__item">
+                            <label for="name" class="registration-block__text">Ім’я</label>
+                            <input type="text" name="name" id="name" class="registration-block__input" placeholder="Ім'я" required value="<%= form.name %>">
+                        </div>
+        
+                        <div class="registration-block__item">
+                            <label for="password" class="registration-block__text">Пароль</label>
+                            <input type="password" name="password" id="password" class="registration-block__input" placeholder="Пароль" required>
+                        </div>
+        
+                        <div class="registration-block__item">
+                            <label for="surname" class="registration-block__text">Прізвище</label>
+                            <input type="text" name="surname" id="surname" class="registration-block__input" placeholder="Прізвище" required value="<%= form.surname %>">
+                        </div>
+        
+                        <div class="registration-block__item">
+                            <label for="passwordConfirm" class="registration-block__text">Підтвердіть пароль</label>
+                            <input type="password" name="passwordConfirm" id="passwordConfirm" class="registration-block__input" placeholder="Підтвердіть пароль" required>
+                        </div>
+        
+                        <div class="registration-block__item">
+                            <label for="email" class="registration-block__text">E-mail</label>
+                            <input type="email" name="email" id="email" class="registration-block__input" placeholder="E-mail" required value="<%= form.email %>">
+                        </div>
+                    </div>
+
+                    <div class="flash-message">
+                        <% if(errors !== "") { %>
+                            <% errors.forEach((item) => { %>
+                                <div class="alert-danger">
+                                    <%- item%>
+                                </div>
+                            <%})%>
+                        <%}%>
+                    </div>
+
+                    <button type="submit" class="button">Зареєструватися</button>
+                </form>
+        
+                <div class="registration__text">Вже зареєстровані? 
+                    <a href="/entry">Нажміть сюди.</a>
+                </div>
+            </div>
+        </section>        
+    </main>
+
+</body>
+</html>

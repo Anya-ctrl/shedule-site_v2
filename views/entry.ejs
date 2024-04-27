@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <%- include('./partials/header') %>
+
+    <main class="main">
+        <section class="entry" id="entry">
+            <div class="container">
+                <h2 class="entry__title">
+                    Вхід
+                </h2>
+        
+                <form action="/login" method="POST" class="entry-form">
+                    <div class="entry-block">
+                        <div class="entry-block__item">
+                            <label for="email" class="entry-block__text">E-mail</label>
+                            <input type="email" name="email" id="email" class="entry-block__input" placeholder="E-mail" required value="<%= form.email %>">
+                        </div>
+        
+                        <div class="entry-block__item">
+                            <label for="password" class="entry-block__text">Пароль</label>
+                            <input type="password" name="password" id="password" class="entry-block__input" placeholder="Пароль" required>
+                        </div>
+                    </div>
+
+                    <div class="flash-message">
+                        <% if(errors !== "") { %>
+                            <% errors.forEach((item) => { %>
+                                <div class="alert-danger">
+                                    <%- item%>
+                                </div>
+                            <%})%>
+                        <%}%>
+                    </div>
+        
+                    <button type="submit" class="button">
+                        Увійти
+                    </button>
+                </form>
+
+                <div class="entry__text">
+                    <a href="/forgot-password">Забули пароль?</a>
+                </div>
+        
+                <div class="entry__text">Немає облікового запису?
+                    <a href="/registration">Зареєструйтесь.</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

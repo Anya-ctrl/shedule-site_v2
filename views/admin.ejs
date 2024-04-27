@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('./partials/header') %>
+
+    <main class="main">
+        <section class="admin-panel">
+            <div class="container">
+                <h1 class="admin-panel__text">Список користувачів</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ім'я</th>
+                            <th>Прізвище</th>
+                            <th>Email</th>
+                            <th>Роль</th>
+                            <th>РЕдагувати роль</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(us => { %>
+                            <tr>
+                                <td><%= us.name %></td>
+                                <td><%= us.surname %></td>
+                                <td><%= us.email %></td>
+                                <td><%= us.role %></td>
+                                <td>
+                                    <form  class="admin-panel__form" action="/admin/update-role" method="post">
+                                        <input type="hidden" name="userId" value="<%= us.id %>">
+
+                                        <select id="roleSelect" name="newRole">
+                                            <option value="" disabled  selected>Оберіть роль</option>
+                                            <option value="student">Student</option>
+                                            <option value="guest">Guest</option>
+                                            <option value="admin">Admin</option>
+                                        </select>  
+                                        
+                                        <button type="submit">Змінити</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+
+                <h1 class="admin-panel__text">Список студентів</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ім'я</th>
+                            <th>Прізвище</th>
+                            <th>Email</th>
+                            <th>Група</th>
+                            <th>Видалити</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% students.forEach(student => { %>
+                            <tr>
+                                <td><%= student.name %></td>
+                                <td><%= student.surname %></td>
+                                <td><%= student.email %></td>
+                                <td><%= student.group_id %></td>
+                                <td>
+                                    <form  class="admin-panel__form" action="/admin/delete-student" method="post">
+                                        <input type="hidden" name="studentId" value="<%= student.student_id %>">
+                                        <button type="submit">Видалити</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+
+                <h2 class="admin-panel__text">Добавити студента</h2>
+                <form class="admin-panel__form" action="/admin/add-student" method="post">
+                    <input type="text" name="name" placeholder="Name" required value="<%= form.name %>">
+                    <input type="text" name="surname" placeholder="Surname" required value="<%= form.surname %>">
+                    <input type="email" name="email" placeholder="Email" required value="<%= form.email %>">
+                    <select name="group_id">
+                        <% groups.forEach(group => { %>
+                            <option value="<%= group.group_id %>"><%= group.group_name %></option>
+                        <% }); %>
+                    </select>
+                    <button class="form-btn" type="submit">Добавити студента</button>
+                </form>
+
+                <div class="admin-flash-message">
+                    <% if(errors && Array.isArray(errors) && errors.length > 0) { %>
+                        <% errors.forEach((item) => { %>
+                            <div class="admin-alert-danger">
+                                <%- item %>
+                            </div>
+                        <% }); %>
+                    <% } %>     
+                </div>
+
+                <h1 class="admin-panel__text">Список викладачів</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ПІБ</th>
+                            <th>Телефон</th>
+                            <th>Посилання</th>
+                            <th>Видалити</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% professors.forEach(professor => { %>
+                            <tr>
+                                <td><%= professor.fullName %></td>
+                                <td><%= professor.phone %></td>
+                                <td><a href="<%= professor.link %>">Посилання</a></td>
+                                <td>
+                                    <form  class="admin-panel__form" action="/admin/delete-professor" method="post">
+                                        <input type="hidden" name="professorId" value="<%= professor.professor_id %>">
+                                        <button type="submit">Видалити</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+
+                <h2 class="admin-panel__text">Добавити викладача</h2>
+                <form class="admin-panel__form" action="/admin/add-professor" method="post">
+                    <input type="text" name="fullName" placeholder="ПІБ" required>
+                    <input type="tel" name="phone" placeholder="Телефон" required>
+                    <input type="text" name="link" placeholder="Посилання" required>
+                    <button class="form-btn" type="submit">Добавити викладача</button>
+                </form>
+
+                <h1 class="admin-panel__text">Редагувати Розклад</h1>
+                <form class="admin-panel__form" action="/admin/edit-shedule" method="POST">
+                    <label class="admin-panel__text" for="groupSelect">Виберіть групу:</label>
+                    <select name="groupId" id="selectGroup">
+                      <% groups.forEach(group => { %>
+                        <option value="<%= group.group_id %>"><%= group.group_name %></option>
+                      <% }); %>
+                    </select>
+
+                    <table class="admin-panel__table">
+                      <thead>
+                        <tr>
+                          <th>Година</th>
+                          <th>Понеділок</th>
+                          <th>Вівторок</th>
+                          <th>Середа</th>
+                          <th>Четвер</th>
+                          <th>П'ятниця</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <td>8:00-9:20</td>
+                            <td><input type="text" name="mondayFirstLesson" value="<%= monday.firstLesson %>"></td>
+                            <td><input type="text" name="tuesdayFirstLesson" value="<%= tuesday.firstLesson %>"></td>
+                            <td><input type="text" name="wednesdayFirstLesson" value="<%= wednesday.firstLesson %>"></td>
+                            <td><input type="text" name="thursdayFirstLesson" value="<%= thursday.firstLesson %>"></td>
+                            <td><input type="text" name="fridayFirstLesson" value="<%= friday.firstLesson %>"></td>
+                        </tr>
+                        <tr>
+                            <td>9:35-10:55</td>
+                            <td><input type="text" name="mondaySecondLesson" value="<%= monday.secondLesson %>"></td>
+                            <td><input type="text" name="tuesdaySecondLesson" value="<%= tuesday.secondLesson %>"></td>
+                            <td><input type="text" name="wednesdaySecondLesson" value="<%= wednesday.secondLesson %>"></td>
+                            <td><input type="text" name="thursdaySecondLesson" value="<%= thursday.secondLesson %>"></td>
+                            <td><input type="text" name="fridaySecondLesson" value="<%= friday.secondLesson %>"></td>
+                        </tr>
+                        <tr>
+                            <td>11:10-12:30</td>
+                            <td><input type="text" name="mondayThirdLesson" value="<%= monday.thirdLesson %>"></td>
+                            <td><input type="text" name="tuesdayThirdLesson" value="<%= tuesday.thirdLesson %>"></td>
+                            <td><input type="text" name="wednesdayThirdLesson" value="<%= wednesday.thirdLesson %>"></td>
+                            <td><input type="text" name="thursdayThirdLesson" value="<%= thursday.thirdLesson %>"></td>
+                            <td><input type="text" name="fridayThirdLesson" value="<%= friday.thirdLesson %>"></td>
+                        </tr>
+                        <tr>
+                            <td>12:45-14:05</td>
+                            <td><input type="text" name="mondayFourthLesson" value="<%= monday.fourthLesson %>"></td>
+                            <td><input type="text" name="tuesdayFourthLesson" value="<%= tuesday.fourthLesson %>"></td>
+                            <td><input type="text" name="wednesdayFourthLesson" value="<%= wednesday.fourthLesson %>"></td>
+                            <td><input type="text" name="thursdayFourthLesson" value="<%= thursday.fourthLesson %>"></td>
+                            <td><input type="text" name="fridayFourthLesson" value="<%= friday.fourthLesson %>"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <button class="shedule-form-btn" type="submit">Змінити розклад</button>
+                </form>
+                  
+                
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
